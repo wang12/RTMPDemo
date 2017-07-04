@@ -2,6 +2,7 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
+project(native)
 
 cmake_minimum_required(VERSION 3.4.1)
 
@@ -17,10 +18,14 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/librtmp.cpp)
 
 add_library( rtmp-lib
              SHARED
+             IMPORTED)
+
+add_library( x264-lib
+             STATIC
              IMPORTED)
 
 set_target_properties( # Specifies the target library.
@@ -31,8 +36,17 @@ set_target_properties( # Specifies the target library.
 
                        # Provides the path to the library you want to import.
                        /Users/wangqiangqiang/workspace/codec/workspace/RtmpDemo/app/libs/${ANDROID_ABI}/librtmp.so )
-include_directories( src/main/cpp/include )
 
+ set_target_properties( # Specifies the target library.
+                        x264-lib
+
+                        # Specifies the parameter you want to define.
+                        PROPERTIES IMPORTED_LOCATION
+
+                        # Provides the path to the library you want to import.
+                        /Users/wangqiangqiang/workspace/codec/workspace/RtmpDemo/app/src/main/cpp/lib/${ANDROID_ABI}/libx264.a)
+include_directories( src/main/cpp/include )
+aux_source_directory(src/main/cpp/ DIR_SRCS)
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -52,6 +66,7 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        native-lib
                        rtmp-lib
+                       x264-lib
 
                        # Links the target library to the log library
                        # included in the NDK.

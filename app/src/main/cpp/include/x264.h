@@ -28,6 +28,8 @@
 #ifndef X264_X264_H
 #define X264_X264_H
 
+#include "bytes.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

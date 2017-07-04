@@ -18,7 +18,8 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/librtmp.cpp)
+             src/main/cpp/librtmp.cpp
+             src/main/cpp/myx264.cpp)
 
 add_library( rtmp-lib
              SHARED

@@ -19,7 +19,7 @@ const int RTMP_INIT = 0;
 extern "C"
 {
 JNIEXPORT jint JNICALL
-Java_com_xiaoqiang_LibRtmp_Init(JNIEnv *env, jobject obj,jint width,jint hegith) {
+Java_com_xiaoqiang_LibRtmp_Init(JNIEnv *env, jobject obj,jint width,jint hegith,jstring path) {
     jclass cls = env->GetObjectClass(obj);
     if (!callback) {
         jnienv = env;
@@ -37,8 +37,8 @@ Java_com_xiaoqiang_LibRtmp_Init(JNIEnv *env, jobject obj,jint width,jint hegith)
 //    rtmp = RTMP_Alloc();
 //    RTMP_Init(rtmp);
 //    env->CallVoidMethod(jobj, callback, RTMP_INIT, 0);
-
-    X264_Init(width,hegith);
+    char* localpath = (char *) env->GetStringUTFChars(path, 0);
+    X264_Init(width,hegith,localpath);
     return 0;
 }
 JNIEXPORT jint JNICALL

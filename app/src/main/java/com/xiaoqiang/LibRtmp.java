@@ -10,7 +10,7 @@ public class LibRtmp {
     static {
         System.loadLibrary("native-lib");
     }
-    public   native int Init(int width,int height);
+    public   native int Init(int width,int height,String localPath);
     public  native int Connect(String url);
     public  native int DisConnect();
     public native void Release();

@@ -4,6 +4,7 @@
 
 #include <myx264.h>
 #include <string.h>
+#include <stdio.h>
 #include "lelog.h"
 
 x264_param_t *pParam;
@@ -15,8 +16,9 @@ int iNal = 0;
 unsigned char *u;
 unsigned char *v;
 long wh = 0;
+FILE* file;
 
-int X264_Init(int width, int height) {
+int X264_Init(int width, int height,char* path) {
     pParam = new x264_param_t;
     pPic_in = new x264_picture_t;
     pPic_out = new x264_picture_t;
@@ -31,6 +33,8 @@ int X264_Init(int width, int height) {
     pParam->i_csp = X264_CSP_NV21;
 
     x264_param_apply_profile(pParam, x264_profile_names[5]);
+    LOGD("文件路径是:%s",path);
+    file = fopen(path,"w+");
     return 0;
 }
 
@@ -63,8 +67,12 @@ int X264_CodeingX264(unsigned char *data, long length,long time) {
         LOGD("编码错误：%d",ret);
         return NULL;
     }
+    if(file == NULL){
+        LOGD("文件的打开失败");
+        return 0;
+    }
     for (int i = 0; i < iNal; ++i) {//将编码数据写入文件.
-        LOGD("nal大小:%d,编码后数据长度:%d",iNal,pNals[i].i_payload);
+        fwrite(pNals[i].p_payload,1,pNals[i].i_payload,file);
     }
     return ret;
 }
@@ -84,6 +92,9 @@ int X264_Realse() {
     }
     if (v != NULL) {
         delete[] v;
+    }
+    if(file != NULL){
+        fclose(file);
     }
     pHandle = NULL;
     return 0;

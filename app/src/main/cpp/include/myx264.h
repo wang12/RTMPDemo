@@ -7,7 +7,7 @@
 
 #include "x264.h"
 
-int X264_Init(int, int);
+int X264_Init(int, int, char *);
 
 int X264_Start();
 

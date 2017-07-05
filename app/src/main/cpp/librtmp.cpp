@@ -115,9 +115,10 @@ Java_com_xiaoqiang_LibRtmp_SendVideoPage(JNIEnv *env, jobject obj, jbyteArray da
     if (data == NULL && length < 11) {
         return -1;
     }
-    unsigned char* arrar = new unsigned char[length];
-    env->GetByteArrayElements(data, FALSE);
+    unsigned char* arrar = new unsigned char[length] ;
+    env->GetByteArrayRegion(data, 0, length, (jbyte *) arrar);
     X264_CodeingX264(arrar, length,time);
+//    env->ReleaseByteArrayElements(data, (jbyte *) arrar, 0);
     delete[] arrar;
 //    unsigned char *body = new unsigned char[length + 9];
 //    memset(body, 0, length + 9);

@@ -54,7 +54,7 @@ int X264_Stop() {
 
 int X264_CodeingX264(unsigned char *data, long length,long time) {
     strncpy((char *) pPic_in->img.plane[0], (const char *) data, wh); //y
-    for (int i = 0; i < wh / 4; i++) {
+    for (int i = 0; i < wh / 2 - 2; i+=2) {
         u[i] = data[wh + i];
         v[i] = data[wh + i + 1];
     }
